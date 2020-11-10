@@ -4,12 +4,29 @@
         <li><a href="#">Online Rezervasyon</a></li>
         <li><a href="#">
 
-                <date-picker value-type="DD/MM/YYYY" format="DD-MM-YYYY" class="range-picker" v-model="$store.state.date1" type="date" placeholder="Giriş Tarihi" range></date-picker>
+               <div>
+    <div class="datepicker-trigger">
+      <input
+        type="text"
+        id="datepicker-trigger"
+        placeholder="Select dates"
+        :value="formatDates(dateOne, dateTwo)"
+      >
+
+      <AirbnbStyleDatepicker
+        :trigger-element-id="'datepicker-trigger'"
+        :mode="'range'"
+        :fullscreen-mobile="true"
+        :date-one="dateOne"
+        :date-two="dateTwo"
+        @date-one-selected="val => { dateOne = val }"
+        @date-two-selected="val => { dateTwo = val }"
+      />
+    </div>
+  </div>
             </a></li>
 
-        <li><a href="#">
-                <date-picker value-type="DD/MM/YYYY" format="DD-MM-YYYY" class="range-picker" v-model="$store.state.date1" type="date" placeholder="Çıkış Tarihi" range></date-picker>
-            </a></li>
+       
 
         <li><a href="#">Misafirler</a>
         
@@ -21,9 +38,9 @@
                         <td><span> Yetişkinler: </span></td>
                         <td>
                             <div class="" style="width: 110px;">
-                                <button @click="subtract2()">-</button>
+                                <button class="deneme" :style="{maxWidth:deneme}"  @click="subtract2()">-</button>
                                 <input :value="$store.state.adultCount" type="text" style="width: 50px;">
-                                <button @click="increment2()">+</button>
+                                <button class="deneme" :style="{maxWidth:deneme}" @click="increment2()">+</button>
 
                             </div>
                         </td>
@@ -34,9 +51,9 @@
                         <td><span> Çocuklar:</span> </td>
                         <td>
                             <div class="" style="width: 110px;">
-                                <button tabindex="0" type="button" role="button" @click="subtract()" class="">-</button>
+                                <button tabindex="0" class="deneme" :style="{maxWidth:deneme}" type="button" role="button" @click="subtract()" >-</button>
                                 <input :value="$store.state.childrenCount" style="width: 50px;">
-                                <button tabindex="0" type="button" role="button" class="" @click="increment()">+
+                                <button tabindex="0" class="deneme" :style="{maxWidth:deneme}" type="button" role="button" @click="increment()">+
                                 </button>
                             </div>
                         </td>
@@ -51,7 +68,7 @@
                                     <td><span> {{index+1}}. Çocuk: </span></td>
                                     <td>
                                         <div class="" style="width: 110px;">
-                                            <button @click="subtractAge(index)">-</button>
+                                            <button  @click="subtractAge(index)">-</button>
                                             <input :value="$store.state.childrenAge" type="text" style="width: 50px;">
                                             <button @click="addAge(index)">+</button>
 
@@ -80,13 +97,22 @@ import {
 } from "vue-property-decorator";
 import DatePicker from "vue2-datepicker";
 import "vue2-datepicker/index.css";
+import format from 'date-fns/format'
+// import { FunctionalCalendar } from 'vue-functional-calendar';
 
 @Component({
     components: {
-        DatePicker
+        DatePicker,
+        
     },
 })
 export default class Reservation2 extends Vue {
+
+
+    dateFormat= 'D MMM'
+      dateOne= ''
+      dateTwo= ''
+    maxWidth= '20px';
 
     increment() {
         this.$store.commit('increment')
@@ -113,7 +139,23 @@ export default class Reservation2 extends Vue {
         this.$store.commit('dateDivide')
     }
 
-}
+    get deneme(){
+        return this.maxWidth;
+    }
+   
+   formatDates(dateOne: any, dateTwo: any) {
+      let formattedDates = ''
+      if (dateOne) {
+        formattedDates = format(dateOne, this.dateFormat)
+      }
+      if (dateTwo) {
+        formattedDates += ' - ' + format(dateTwo, this.dateFormat)
+      }
+      return formattedDates
+    }
+  }
+
+
 </script>
 
 <style lang="scss">
@@ -167,34 +209,33 @@ export default class Reservation2 extends Vue {
 }
 
 .dropdown-1 li {
-    display: none;
+     display: none;
     position: relative;
 }
 
 .dropdown-1 {
-    position: absolute;
+    
     display: flex;
     flex-direction: column;
     width: 100%;
-}
+      
+    flex-wrap: nowrap;
+   
 
-.dropdown-1 li:hover {
-    display: block;
+    @media all and (max-width: 768px) {
+        
+        flex-direction: column;
+         width: 100%;
+        
+          
+    }
 }
+//  .dropdown-1 button {
+//       max-width: 20px;
+//  }
 
-#app>div.home>div>ul>li:nth-child(4)>ul>li:nth-child(1)>a>tr>td:nth-child(2)>div>input[type=text] {
-    text-align: center;
-}
 
-#app>div.home>div>ul>li:nth-child(4)>ul>li:nth-child(2)>a>tr>td:nth-child(2)>div>input {
-    text-align: center;
-}
 
-#app>div.home>div>ul>li:nth-child(4)>ul>li:nth-child(2)>a>tr>td:nth-child(1)>span {
-    letter-spacing: 2.7px !important;
-}
 
-#app>div.home>div>ul>li:nth-child(4)>ul>div>ul>li>a>tr>div>td:nth-child(2)>div>input[type=text] {
-    text-align: center;
-}
+
 </style>

@@ -33,6 +33,7 @@ export default new Vuex.Store({
      subtractAge(state) {
        state.childrenAge = state.childrenAge - 1;
      }
+  
     // dateDivide(state) {
     //   state.date2 = state.date1.split('~')
     // }
