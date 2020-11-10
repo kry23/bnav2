@@ -3,4 +3,6 @@ declare module '*.vue' {
   export default Vue
 }
 
-// declare module 'vue2-datepicker';
+declare module 'vue-functional-calendar';
+declare module 'vue-airbnb-style-datepicker';
+declare module 'date-fns/add_days';
