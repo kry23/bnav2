@@ -3,27 +3,10 @@
     <ul>
         <li><a href="#">Online Rezervasyon</a></li>
         <li><a href="#">
-
-               <div>
-    <div class="datepicker-trigger">
-      <input
-        type="text"
-        id="datepicker-trigger"
-        placeholder="Select dates"
-        :value="formatDates(dateOne, dateTwo)"
-      >
-
-      <AirbnbStyleDatepicker
-        :trigger-element-id="'datepicker-trigger'"
-        :mode="'range'"
-        :fullscreen-mobile="true"
-        :date-one="dateOne"
-        :date-two="dateTwo"
-        @date-one-selected="val => { dateOne = val }"
-        @date-two-selected="val => { dateTwo = val }"
-      />
-    </div>
-  </div>
+            <date-picker
+              v-model="$store.state.date1"
+              range
+              placeholder="Giriş Tarihi - Çıkış Tarihi"></date-picker>
             </a></li>
 
        
@@ -38,9 +21,18 @@
                         <td><span> Yetişkinler: </span></td>
                         <td>
                             <div class="" style="width: 110px;">
-                                <button class="deneme" :style="{maxWidth:deneme}"  @click="subtract2()">-</button>
-                                <input :value="$store.state.adultCount" type="text" style="width: 50px;">
-                                <button class="deneme" :style="{maxWidth:deneme}" @click="increment2()">+</button>
+                               <button
+                                  class="deneme"
+                                  :style="{maxWidth:deneme}"
+                                  @click="subtract2()">-</button>
+                              <input
+                                  :value="$store.state.adultCount"
+                                  type="text"
+                                  style="width: 50px;">
+                              <button
+                                  class="deneme"
+                                  :style="{maxWidth:deneme}"
+                                  @click="increment2()">+</button>
 
                             </div>
                         </td>
@@ -97,7 +89,7 @@ import {
 } from "vue-property-decorator";
 import DatePicker from "vue2-datepicker";
 import "vue2-datepicker/index.css";
-import format from 'date-fns/format'
+//import format from 'date-fns/format'
 // import { FunctionalCalendar } from 'vue-functional-calendar';
 
 @Component({
@@ -109,9 +101,7 @@ import format from 'date-fns/format'
 export default class Reservation2 extends Vue {
 
 
-    dateFormat= 'D MMM'
-      dateOne= ''
-      dateTwo= ''
+   
     maxWidth= '20px';
 
     increment() {
@@ -143,16 +133,7 @@ export default class Reservation2 extends Vue {
         return this.maxWidth;
     }
    
-   formatDates(dateOne: any, dateTwo: any) {
-      let formattedDates = ''
-      if (dateOne) {
-        formattedDates = format(dateOne, this.dateFormat)
-      }
-      if (dateTwo) {
-        formattedDates += ' - ' + format(dateTwo, this.dateFormat)
-      }
-      return formattedDates
-    }
+
   }
 
 
